@@ -63,7 +63,7 @@ spec:
       serviceAccountName: network-exporter
       containers:
       - name: network-exporter
-        image: ghcr.io/amarchese96/mentat:latest
+        image: ghcr.io/amarchese96/mentat:1.0.0
         ports:
         - containerPort: 2112
         env:
