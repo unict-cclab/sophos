@@ -15,7 +15,7 @@ public class NetworkMonitor {
             clusterNode.getNode()
                     .getMetadata()
                     .getLabels()
-                    .put("network-latency." + clusterNode.getName(), String.valueOf(1.0)
+                    .put("network-latency." + clusterNode.getName(), String.valueOf(0.0)
             );
         });
     }
