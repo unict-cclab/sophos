@@ -1,0 +1,40 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: sophos-telemetry-service
+  namespace: monitoring
+  labels:
+    app: sophos-telemetry-service
+spec:
+  selector:
+    app: sophos-telemetry-service
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sophos-telemetry-service
+  namespace: monitoring
+  labels:
+    app: sophos-telemetry-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sophos-telemetry-service
+  template:
+    metadata:
+      labels:
+        app: sophos-telemetry-service
+    spec:
+      containers:
+      - name: sophos-telemetry-service
+        image: ghcr.io/amarchese96/sophos-telemetry-service:e6056ee
+        env:
+        - name: PROMETHEUS_ADDRESS
+          value: http://prometheus-kube-prometheus-prometheus:9090
+        ports:
+        - containerPort: 8080

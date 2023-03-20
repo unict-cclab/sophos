@@ -1,0 +1,12 @@
+domain: unict.it
+layout:
+- quarkus.javaoperatorsdk.io/v1-alpha
+projectName: sophos-app-group-operator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: unict.it
+  kind: AppGroup
+  version: v1alpha1
+version: "3"
