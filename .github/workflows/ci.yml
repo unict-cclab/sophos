@@ -1,6 +1,7 @@
 name: Run CI
 
 on:
+  workflow_dispatch:
   push:
     branches: ["main"]
     paths:
