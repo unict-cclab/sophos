@@ -1,4 +1,4 @@
-IMG_NAME ?= ghcr.io/amarchese96/sophos-telemetry
+IMG_NAME ?= ghcr.io/amarchese96/sophos-telemetry-service
 IMG_TAG ?= latest
 PROMETHEUS_ADDRESS ?= http://localhost:9090
 

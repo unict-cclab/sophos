@@ -4,11 +4,11 @@ COPY go.mod ./
 COPY go.sum ./
 RUN go mod download
 COPY . .
-RUN go build -o /sophos-telemetry -buildvcs=false
+RUN go build -o /sophos-telemetry-service -buildvcs=false
 
 FROM gcr.io/distroless/base-debian10
 WORKDIR /
-COPY --from=build /sophos-telemetry /sophos-telemetry
+COPY --from=build /sophos-telemetry-service /sophos-telemetry-service
 EXPOSE 8080
 USER nonroot:nonroot
 ENTRYPOINT ["/sophos-telemetry"]
