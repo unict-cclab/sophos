@@ -1,5 +1,4 @@
-IMG_NAME ?= ghcr.io/amarchese96/sophos-telemetry-service
-IMG_TAG ?= latest
+IMG ?= ghcr.io/amarchese96/sophos-telemetry-service:latest
 PROMETHEUS_ADDRESS ?= http://localhost:9090
 
 run:
@@ -9,7 +8,7 @@ build:
 	go build
 
 docker-build:
-	docker build -t ${IMG_NAME}:${IMG_TAG} .
+	docker build -t ${IMG} .
 
 docker-push:
-	docker push ${IMG_NAME}:${IMG_TAG}
+	docker push ${IMG}
