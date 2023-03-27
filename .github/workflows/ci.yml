@@ -8,6 +8,7 @@ on:
       - cluster-operator/**
       - mentat/**
       - scheduler-plugins/**
+      - telemetry-service/**
   pull_request:
     branches: ["main"]
     paths:
@@ -15,6 +16,7 @@ on:
       - cluster-operator/**
       - mentat/**
       - scheduler-plugins/**
+      - telemetry-service/**
 
 env:
   REGISTRY: ghcr.io
