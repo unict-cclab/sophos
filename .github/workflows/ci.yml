@@ -201,7 +201,6 @@ jobs:
         run: |
           #!/usr/bin/env bash
           set -euo pipefail
-          make IMG=${IMG} docker-build
           make local-image REGISTRY=${REGISTRY} IMAGE=${IMG}
         shell: bash
         env:
@@ -260,4 +259,4 @@ jobs:
           make IMG=${IMG} docker-push
         shell: bash
         env:
-          IMG: ${{ env.REGISTRY }}/amarchese96/mentat:${{ steps.vars.outputs.sha_short }}
+          IMG: ${{ env.REGISTRY }}/amarchese96/sophos-telemetry-service:${{ steps.vars.outputs.sha_short }}
