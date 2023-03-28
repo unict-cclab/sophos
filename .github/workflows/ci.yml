@@ -72,7 +72,7 @@ jobs:
           make IMG=${IMG} docker-push
         shell: bash
         env:
-          IMG: ${{ env.REGISTRY }}/sophos-app-group-operator:${{ steps.vars.outputs.sha_short }}
+          IMG: ${{ env.REGISTRY }}/amarchese96/sophos-app-group-operator:${{ steps.vars.outputs.sha_short }}
   
   cluster-operator:
     runs-on: ubuntu-latest
@@ -123,7 +123,7 @@ jobs:
           make IMG=${IMG} docker-push
         shell: bash
         env:
-          IMG: ${{ env.REGISTRY }}/sophos-cluster-operator:${{ steps.vars.outputs.sha_short }}
+          IMG: ${{ env.REGISTRY }}/amarchese96/sophos-cluster-operator:${{ steps.vars.outputs.sha_short }}
   
   network-exporter:
     runs-on: ubuntu-latest
