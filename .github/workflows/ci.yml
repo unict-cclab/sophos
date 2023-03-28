@@ -132,6 +132,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       - name: Log in to the Container registry
         if: ${{ github.event_name != 'pull_request' || ! github.event.pull_request.head.repo.fork }}
@@ -175,6 +177,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       - name: Log in to the Container registry
         if: ${{ github.event_name != 'pull_request' || ! github.event.pull_request.head.repo.fork }}
@@ -246,6 +250,7 @@ jobs:
 
       - name: Push Image
         if: ${{ github.event_name != 'pull_request' || ! github.event.pull_request.head.repo.fork }}
+        working-directory: ./telemetry-service
         run: |
           #!/usr/bin/env bash
           set -euo pipefail
