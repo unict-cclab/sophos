@@ -65,6 +65,7 @@ jobs:
 
       - name: Push Image
         if: ${{ github.event_name != 'pull_request' || ! github.event.pull_request.head.repo.fork }}
+        working-directory: ./app-group-operator
         run: |
           #!/usr/bin/env bash
           set -euo pipefail
@@ -115,6 +116,7 @@ jobs:
 
       - name: Push Image
         if: ${{ github.event_name != 'pull_request' || ! github.event.pull_request.head.repo.fork }}
+        working-directory: ./cluster-operator
         run: |
           #!/usr/bin/env bash
           set -euo pipefail
@@ -160,6 +162,7 @@ jobs:
 
       - name: Push Image
         if: ${{ github.event_name != 'pull_request' || ! github.event.pull_request.head.repo.fork }}
+        working-directory: ./mentat
         run: |
           #!/usr/bin/env bash
           set -euo pipefail
