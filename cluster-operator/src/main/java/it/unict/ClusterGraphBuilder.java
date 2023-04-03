@@ -18,8 +18,8 @@ public class ClusterGraphBuilder {
         nodes.forEach(node -> {
             String clusterNodeName = node.getMetadata().getName();
 
-            double availableCpuPercentage = telemetryService
-                    .getNodeAvailableCpu(clusterNodeName)
+            double cpuUsage = telemetryService
+                    .getNodeCpuUsage(clusterNodeName)
                     .await().indefinitely();
 
             double allocatableCpu = Double.parseDouble(node
@@ -28,7 +28,7 @@ public class ClusterGraphBuilder {
                     .get("cpu")
                     .getAmount());
 
-            double availableCpu = availableCpuPercentage * allocatableCpu * 1000;
+            double availableCpu = (allocatableCpu - cpuUsage) * 1000;
 
             double availableMemory = telemetryService
                     .getNodeAvailableMemory(clusterNodeName)

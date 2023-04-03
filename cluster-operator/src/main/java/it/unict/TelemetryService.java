@@ -11,8 +11,8 @@ import java.util.Map;
 public interface TelemetryService {
 
     @GET
-    @Path("/metrics/nodes/available-cpu")
-    Uni<Double> getNodeAvailableCpu(@QueryParam("node") String node);
+    @Path("/metrics/nodes/cpu-usage")
+    Uni<Double> getNodeCpuUsage(@QueryParam("node") String node);
 
 
     @GET
