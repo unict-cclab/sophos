@@ -201,16 +201,20 @@ jobs:
         with:
           with_initial_version: true
 
+      - name: Get Short Commit SHA
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
       - name: Build Image
         id: build-image
         working-directory: ./scheduler-plugins
         run: |
           #!/usr/bin/env bash
           set -euo pipefail
-          make local-image VERSION=${VERSION} REGISTRY=${REGISTRY} IMAGE=${IMG}
+          make local-image RELEASE_VERSION=${RELEASE_VERSION} REGISTRY=${REGISTRY} IMAGE=${IMG}
         shell: bash
         env:
-          VERSION: ${{ steps.get-latest-tag.outputs.tag }}
+          RELEASE_VERSION: ${{ steps.get-latest-tag.outputs.tag }}
           REGISTRY: ${{ env.REGISTRY }}/amarchese96
           IMG: sophos-scheduler:${{ steps.vars.outputs.sha_short }}
 
