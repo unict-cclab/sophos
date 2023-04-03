@@ -220,7 +220,7 @@ func getNodesAvailableMemory(c *gin.Context) {
 		} else {
 			memoryValues := map[string]float64{}
 			for _, result := range results {
-				memoryValues[string(result.Metric["kubernetes_node"])] = float64(result.Value)
+				memoryValues[string(result.Metric["node_name"])] = float64(result.Value)
 			}
 			c.IndentedJSON(http.StatusOK, memoryValues)
 		}
@@ -258,7 +258,7 @@ func getNodesAvailableCpu(c *gin.Context) {
 		} else {
 			cpuValues := map[string]float64{}
 			for _, result := range results {
-				cpuValues[string(result.Metric["kubernetes_node"])] = float64(result.Value)
+				cpuValues[string(result.Metric["node_name"])] = float64(result.Value)
 			}
 			c.IndentedJSON(http.StatusOK, cpuValues)
 		}
