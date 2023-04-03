@@ -63,9 +63,19 @@ Install app-group-operator:
 kubectl apply -f app-group-operator.yml
 ```
 
+Install scheduler:
+
+```
+helm install sophos-scheduler ../scheduler-plugins/manifests/install/charts/as-a-second-scheduler --values scheduler.yml -n scheduler-plugins --create-namespace
+```
+
 Clean up:
 
 ```
+helm uninstall sophos-scheduler -n scheduler-plugins
+
+kubectl delete ns scheduler-plugins
+
 kubectl delete -f app-group-operator.yml
 
 kubectl delete -f cluster-operator.yml
