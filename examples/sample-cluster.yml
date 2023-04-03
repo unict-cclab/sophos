@@ -1,0 +1,9 @@
+apiVersion: unict.it/v1alpha1
+kind: Cluster
+metadata:
+  name: sample-cluster
+spec:
+  nodeSelector: {}
+  resourceMonitorEnabled: true
+  networkMonitorEnabled: true
+  runPeriod: 30
