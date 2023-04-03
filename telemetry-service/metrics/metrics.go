@@ -364,7 +364,7 @@ func GetNodesAvailableMemory(rangeWidth string) (model.Vector, prometheus.Warnin
 	return vector, warnings, err
 }
 
-func GetNodeAvailableCpu(nodeName, rangeWidth string) (model.Vector, prometheus.Warnings, error) {
+func GetNodeCpuUsage(nodeName, rangeWidth string) (model.Vector, prometheus.Warnings, error) {
 	prometheusClient, err := newPrometheusClient(prometheusAddress)
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to create metrics client: %v", err)
@@ -373,7 +373,7 @@ func GetNodeAvailableCpu(nodeName, rangeWidth string) (model.Vector, prometheus.
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	result, warnings, err := prometheusClient.Query(ctx, `
-		1 - avg by (node_name) (rate(node_cpu_seconds_total{node_name="`+nodeName+`",mode!="idle"}[`+rangeWidth+`]))
+		sum by (node_name) (rate(node_cpu_seconds_total{node_name="`+nodeName+`",mode!="idle"}[`+rangeWidth+`]))
 	`, time.Now())
 
 	if err != nil {
@@ -389,7 +389,7 @@ func GetNodeAvailableCpu(nodeName, rangeWidth string) (model.Vector, prometheus.
 	return vector, warnings, err
 }
 
-func GetNodesAvailableCpu(rangeWidth string) (model.Vector, prometheus.Warnings, error) {
+func GetNodesCpuUsage(rangeWidth string) (model.Vector, prometheus.Warnings, error) {
 	prometheusClient, err := newPrometheusClient(prometheusAddress)
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to create metrics client: %v", err)
@@ -398,7 +398,7 @@ func GetNodesAvailableCpu(rangeWidth string) (model.Vector, prometheus.Warnings,
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	result, warnings, err := prometheusClient.Query(ctx, `
-		1 - avg by (node_name) (rate(node_cpu_seconds_total{mode!="idle"}[`+rangeWidth+`]))
+		sum by (node_name) (rate(node_cpu_seconds_total{mode!="idle"}[`+rangeWidth+`]))
 	`, time.Now())
 
 	if err != nil {

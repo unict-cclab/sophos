@@ -227,7 +227,7 @@ func getNodesAvailableMemory(c *gin.Context) {
 	}
 }
 
-func getNodesAvailableCpu(c *gin.Context) {
+func getNodesCpuUsage(c *gin.Context) {
 	nodeName := c.Query("node")
 
 	rangeWidth := c.Query("range-width")
@@ -237,20 +237,20 @@ func getNodesAvailableCpu(c *gin.Context) {
 	}
 
 	if nodeName != "" {
-		results, _, err := metrics.GetNodeAvailableCpu(nodeName, rangeWidth)
+		results, _, err := metrics.GetNodeCpuUsage(nodeName, rangeWidth)
 
 		//fmt.Println(warnings)
 		if err != nil {
 			c.IndentedJSON(http.StatusInternalServerError, err)
 		} else {
 			if len(results) < 1 {
-				c.IndentedJSON(http.StatusNotFound, fmt.Errorf("available cpu metrics for node %s not found", nodeName))
+				c.IndentedJSON(http.StatusNotFound, fmt.Errorf("cpu usage metrics for node %s not found", nodeName))
 			} else {
 				c.IndentedJSON(http.StatusOK, float64(results[0].Value))
 			}
 		}
 	} else {
-		results, _, err := metrics.GetNodesAvailableCpu(rangeWidth)
+		results, _, err := metrics.GetNodesCpuUsage(rangeWidth)
 
 		//fmt.Println(warnings)
 		if err != nil {
@@ -272,7 +272,7 @@ func main() {
 	router.GET("/metrics/apps/memory-usage", getAppsMemoryUsage)
 	router.GET("/metrics/nodes/latencies", getNodesLatencies)
 	router.GET("/metrics/nodes/available-memory", getNodesAvailableMemory)
-	router.GET("/metrics/nodes/available-cpu", getNodesAvailableCpu)
+	router.GET("/metrics/nodes/cpu-usage", getNodesCpuUsage)
 
 	err := router.Run("0.0.0.0:8080")
 	if err != nil {
