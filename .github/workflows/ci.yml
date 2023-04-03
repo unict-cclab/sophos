@@ -194,6 +194,12 @@ jobs:
       - name: Get Short Commit SHA
         id: vars
         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      
+      - name: Get latest tag
+        uses: actions-ecosystem/action-get-latest-tag@v1
+        id: get-latest-tag
+        with:
+          with_initial_version: true
 
       - name: Build Image
         id: build-image
@@ -204,6 +210,7 @@ jobs:
           make local-image REGISTRY=${REGISTRY} IMAGE=${IMG}
         shell: bash
         env:
+          VERSION: ${{ steps.get-latest-tag.outputs.tag }}
           REGISTRY: ${{ env.REGISTRY }}/amarchese96
           IMG: sophos-scheduler:${{ steps.vars.outputs.sha_short }}
 
