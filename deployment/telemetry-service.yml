@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: sophos-telemetry-service
-        image: ghcr.io/amarchese96/sophos-telemetry-service:02a2dca
+        image: ghcr.io/amarchese96/sophos-telemetry-service:868267c
         env:
         - name: GIN_MODE
           value: release
