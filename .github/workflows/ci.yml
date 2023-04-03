@@ -207,7 +207,7 @@ jobs:
         run: |
           #!/usr/bin/env bash
           set -euo pipefail
-          make local-image REGISTRY=${REGISTRY} IMAGE=${IMG}
+          make local-image VERSION=${VERSION} REGISTRY=${REGISTRY} IMAGE=${IMG}
         shell: bash
         env:
           VERSION: ${{ steps.get-latest-tag.outputs.tag }}
