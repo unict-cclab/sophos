@@ -11,4 +11,4 @@ WORKDIR /
 COPY --from=build /sophos-telemetry-service /sophos-telemetry-service
 EXPOSE 8080
 USER nonroot:nonroot
-ENTRYPOINT ["/sophos-telemetry"]
+ENTRYPOINT ["/sophos-telemetry-service"]
