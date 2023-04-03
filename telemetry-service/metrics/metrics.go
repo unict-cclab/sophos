@@ -323,7 +323,7 @@ func GetNodeAvailableMemory(nodeName, rangeWidth string) (model.Vector, promethe
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	result, warnings, err := prometheusClient.Query(ctx, `
-		(avg_over_time(node_memory_MemAvailable_bytes{kubernetes_node="`+nodeName+`"}[`+rangeWidth+`])) / (1024 * 1024)
+		(avg_over_time(node_memory_MemAvailable_bytes{node_name="`+nodeName+`"}[`+rangeWidth+`])) / (1024 * 1024)
 	`, time.Now())
 
 	if err != nil {
@@ -373,7 +373,7 @@ func GetNodeAvailableCpu(nodeName, rangeWidth string) (model.Vector, prometheus.
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	result, warnings, err := prometheusClient.Query(ctx, `
-		1 - avg by (kubernetes_node) (rate(node_cpu_seconds_total{kubernetes_node="`+nodeName+`",mode!="idle"}[`+rangeWidth+`]))
+		1 - avg by (node_name) (rate(node_cpu_seconds_total{node_name="`+nodeName+`",mode!="idle"}[`+rangeWidth+`]))
 	`, time.Now())
 
 	if err != nil {
@@ -398,7 +398,7 @@ func GetNodesAvailableCpu(rangeWidth string) (model.Vector, prometheus.Warnings,
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	result, warnings, err := prometheusClient.Query(ctx, `
-		1 - avg by (kubernetes_node) (rate(node_cpu_seconds_total{mode!="idle"}[`+rangeWidth+`]))
+		1 - avg by (node_name) (rate(node_cpu_seconds_total{mode!="idle"}[`+rangeWidth+`]))
 	`, time.Now())
 
 	if err != nil {
