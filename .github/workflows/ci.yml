@@ -200,11 +200,7 @@ jobs:
         id: get-latest-tag
         with:
           with_initial_version: true
-
-      - name: Get Short Commit SHA
-        id: vars
-        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-
+      
       - name: Build Image
         id: build-image
         working-directory: ./scheduler-plugins
