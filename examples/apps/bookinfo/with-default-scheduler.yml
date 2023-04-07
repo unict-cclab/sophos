@@ -1,0 +1,301 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app-group: bookinfo
+    app: details
+  name: details
+spec:
+  selector:
+    matchLabels:
+      app-group: bookinfo
+      app: details
+  template:
+    metadata:
+      labels:
+        app-group: bookinfo
+        app: details
+        index: "1"
+    spec:
+      containers:
+      - name: bookinfo-details
+        image: docker.io/istio/examples-bookinfo-details-v1:1.16.2
+        imagePullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app-group: bookinfo
+    app: details
+  name: details
+spec:
+  ports:
+  - name: http
+    port: 9080
+    protocol: TCP
+  selector:
+    app-group: bookinfo
+    app: details
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app-group: bookinfo
+    app: mongodb
+  name: mongodb
+spec:
+  selector:
+    matchLabels:
+      app-group: bookinfo
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app-group: bookinfo
+        app: mongodb
+        index: "3"
+    spec:
+      containers:
+      - name: bookinfo-mongodb
+        image: docker.io/istio/examples-bookinfo-mongodb:1.16.2
+        imagePullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app-group: bookinfo
+    app: mongodb
+  name: mongodb
+spec:
+  ports:
+  - name: db
+    port: 27017
+    protocol: TCP
+    targetPort: 27017
+  selector:
+    app-group: bookinfo
+    app: mongodb
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app-group: bookinfo
+    app: productpage
+  name: productpage
+spec:
+  selector:
+    matchLabels:
+      app-group: bookinfo
+      app: productpage
+  template:
+    metadata:
+      labels:
+        app-group: bookinfo
+        app: productpage
+        index: "0"
+    spec:
+      containers:
+      - name: bookinfo-productpage
+        image: docker.io/istio/examples-bookinfo-productpage-v1:1.16.2
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          runAsUser: 1000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app-group: bookinfo
+    app: productpage
+  name: productpage
+spec:
+  ports:
+  - name: http
+    port: 9080
+    protocol: TCP
+    targetPort: 9080
+  selector:
+    app-group: bookinfo
+    app: productpage
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app-group: bookinfo
+    app: reviews
+  name: reviews
+spec:
+  selector:
+    matchLabels:
+      app-group: bookinfo
+      app: reviews
+  template:
+    metadata:
+      labels:
+        app-group: bookinfo
+        app: reviews
+        index: "1"
+    spec:
+      containers:
+      - name: bookinfo-reviews
+        image: docker.io/istio/examples-bookinfo-reviews-v2:1.16.2
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          runAsUser: 1000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app-group: bookinfo
+    app: reviews
+  name: reviews
+spec:
+  ports:
+  - name: http
+    port: 9080
+    protocol: TCP
+    targetPort: 9080
+  selector:
+    app-group: bookinfo
+    app: reviews
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app-group: bookinfo
+    app: ratings
+  name: ratings
+spec:
+  selector:
+    matchLabels:
+      app-group: bookinfo
+      app: ratings
+  template:
+    metadata:
+      labels:
+        app-group: bookinfo
+        app: ratings
+        index: "2"
+    spec:
+      containers:
+      - name: bookinfo-ratings
+        image: docker.io/istio/examples-bookinfo-ratings-v2:1.16.2
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: MONGO_DB_URL
+          value: mongodb://mongodb:27017/test
+        securityContext:
+          runAsUser: 1000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app-group: bookinfo
+    app: ratings
+  name: ratings
+spec:
+  ports:
+  - name: http
+    port: 9080
+    protocol: TCP
+    targetPort: 9080
+  selector:
+    app-group: bookinfo
+    app: ratings
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: labeler-sa
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: labeler-role
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "watch", "list", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: labeler-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: labeler-role
+subjects:
+- kind: ServiceAccount
+  name: labeler-sa
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: tcp-proxy
+  labels:
+    app-group: bookinfo
+    component: tcp-proxy
+spec:
+  selector:
+    matchLabels:
+      app-group: bookinfo
+      component: tcp-proxy
+  template:
+    metadata:
+      labels:
+        app-group: bookinfo
+        component: tcp-proxy
+    spec:
+      initContainers:
+      - image: devth/k8s-labeler
+        name: labeler
+        env:
+        - name: KUBE_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: KUBE_LABEL_app
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+      containers:
+      - name: tcp-proxy
+        image: tecnativa/tcp-proxy
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: LISTEN
+          value: ":9080"
+        - name: TALK
+          value: "productpage:9080"
+        ports:
+        - containerPort: 9080
+      serviceAccountName: labeler-sa
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app-group: bookinfo
+    component: tcp-proxy
+  name: tcp-proxy
+spec:
+  ports:
+  - name: http
+    nodePort: 30000
+    port: 9080
+    protocol: TCP
+    targetPort: 9080
+  selector:
+    app-group: bookinfo
+    component: tcp-proxy
+  type: NodePort
+  externalTrafficPolicy: Local

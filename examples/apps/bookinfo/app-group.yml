@@ -1,0 +1,10 @@
+apiVersion: unict.it/v1alpha1
+kind: AppGroup
+metadata:
+  name: bookinfo
+spec:
+  name: bookinfo
+  namespace: default
+  resourceMonitorEnabled: true
+  communicationMonitorEnabled: true
+  runPeriod: 60
