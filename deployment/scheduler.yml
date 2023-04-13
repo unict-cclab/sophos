@@ -1,5 +1,5 @@
 scheduler:
-  image: ghcr.io/amarchese96/sophos-scheduler:0261aad
+  image: ghcr.io/amarchese96/sophos-scheduler:213718b
 
 plugins:
   enabled: ["NetworkAware","ResourceAware"]
