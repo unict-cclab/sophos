@@ -6,7 +6,7 @@ kubectl create ns monitoring
 
 kubectl apply -f $WORKDIR/network-exporter.yml
 
-istioctl install --set profile=demo -y
+istioctl install --set profile=default -y
 
 kubectl label namespace default istio-injection=enabled
 

@@ -14,9 +14,7 @@ kubectl delete -f $WORKDIR/telemetry-service.yml
 
 helm uninstall prometheus -n monitoring
 
-kubectl delete ns monitoring
-
-istioctl manifest generate --set profile=demo | kubectl delete --ignore-not-found=true -f -
+istioctl uninstall --purge
 
 kubectl delete ns istio-system
 
