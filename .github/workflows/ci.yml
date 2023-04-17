@@ -176,7 +176,7 @@ jobs:
           make IMG=${IMG} docker-push
         shell: bash
         env:
-          IMG: ${{ env.REGISTRY }}/amarchese96/sophos-cluster-operator:${{ steps.vars.outputs.sha_short }}
+          IMG: ${{ env.REGISTRY }}/amarchese96/sophos-descheduler-operator:${{ steps.vars.outputs.sha_short }}
   
   network-exporter:
     runs-on: ubuntu-latest
