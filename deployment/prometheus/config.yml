@@ -37,7 +37,7 @@ spec:
       - __meta_kubernetes_pod_annotation_prometheus_io_port
       - __meta_kubernetes_pod_ip
       targetLabel: __address__
-    - action: labeldrop
+    - action: labelmap
       regex: "__meta_kubernetes_pod_label_(.+)"
     - sourceLabels: [__meta_kubernetes_namespace]
       action: replace
