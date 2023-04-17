@@ -6,6 +6,8 @@ helm uninstall sophos-scheduler -n scheduler-plugins
 
 kubectl delete ns scheduler-plugins
 
+kubectl delete -f $WORKDIR/descheduler-operator.yml
+
 kubectl delete -f $WORKDIR/app-group-operator.yml
 
 kubectl delete -f $WORKDIR/cluster-operator.yml

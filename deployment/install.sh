@@ -22,4 +22,6 @@ kubectl apply -f $WORKDIR/cluster-operator.yml
 
 kubectl apply -f $WORKDIR/app-group-operator.yml
 
+kubectl apply -f $WORKDIR/descheduler-operator.yml
+
 helm install sophos-scheduler $WORKDIR/../scheduler-plugins/manifests/install/charts/as-a-second-scheduler --values $WORKDIR/scheduler.yml -n scheduler-plugins --create-namespace
