@@ -1,0 +1,205 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: deschedulerappgroups.unict.it
+spec:
+  group: unict.it
+  names:
+    kind: DeschedulerAppGroup
+    plural: deschedulerappgroups
+    singular: deschedulerappgroup
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          spec:
+            properties:
+              runPeriod:
+                type: integer
+              name:
+                type: string
+              namespace:
+                type: string
+            type: object
+          status:
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sophos-descheduler-operator
+  namespace: kube-system
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sophos-descheduler-operator
+  namespace: kube-system
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /q/metrics
+    prometheus.io/port: "8080"
+    prometheus.io/scheme: http
+  labels:
+    app: sophos-descheduler-operator
+spec:
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+  selector:
+    app: sophos-descheduler-operator
+  type: ClusterIP
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: sophos-descheduler-operator-view
+  namespace: kube-system
+roleRef:
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+  name: view
+subjects:
+- kind: ServiceAccount
+  name: sophos-descheduler-operator
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: deschedulerappgroupreconciler-cluster-role
+rules:
+- apiGroups:
+  - unict.it
+  resources:
+  - deschedulerappgroups
+  - deschedulerappgroups/status
+  - deschedulerappgroups/finalizers
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - delete
+  - patch
+  - update
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - delete
+  - patch
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: josdk-crd-validating-cluster-role
+rules:
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - get
+  - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: deschedulerappgroupreconciler-cluster-role-binding
+roleRef:
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+  name: deschedulerappgroupreconciler-cluster-role
+subjects:
+- kind: ServiceAccount
+  name: sophos-descheduler-operator
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: deschedulerappgroupreconciler-crd-validating-role-binding
+roleRef:
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+  name: josdk-crd-validating-cluster-role
+subjects:
+- kind: ServiceAccount
+  name: sophos-descheduler-operator
+  namespace: kube-system
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sophos-descheduler-operator
+  namespace: kube-system
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /q/metrics
+    prometheus.io/port: "8080"
+    prometheus.io/scheme: http
+  labels:
+    app: sophos-descheduler-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sophos-descheduler-operator
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /q/metrics
+        prometheus.io/port: "8080"
+        prometheus.io/scheme: http
+      labels:
+        app: sophos-descheduler-operator
+    spec:
+      containers:
+      - env:
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        image: ghcr.io/amarchese96/sophos-descheduler-operator:29cce41
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /q/health/live
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 0
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 10
+        name: sophos-descheduler-operator
+        ports:
+          - containerPort: 8080
+            name: http
+            protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /q/health/ready
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 0
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 10
+      serviceAccountName: sophos-descheduler-operator
