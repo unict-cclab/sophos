@@ -9,12 +9,12 @@ public class NetworkMonitor {
         clusterGraph.getClusterNodes().forEach(clusterNode -> {
             clusterNode.getLatencies().forEach((peerClusterNodeName, latency) -> clusterNode.getNode()
                     .getMetadata()
-                    .getLabels()
+                    .getAnnotations()
                     .put("network-latency." + peerClusterNodeName, String.valueOf(latency)));
 
             clusterNode.getNode()
                     .getMetadata()
-                    .getLabels()
+                    .getAnnotations()
                     .put("network-latency." + clusterNode.getName(), String.valueOf(0.0)
             );
         });
