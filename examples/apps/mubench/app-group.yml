@@ -1,0 +1,19 @@
+apiVersion: unict.it/v1alpha1
+kind: AppGroup
+metadata:
+  name: mubench
+spec:
+  name: mubench
+  namespace: default
+  resourceMonitorEnabled: true
+  communicationMonitorEnabled: true
+  runPeriod: 60
+---
+apiVersion: unict.it/v1alpha1
+kind: DeschedulerAppGroup
+metadata:
+  name: mubench
+spec:
+  name: mubench
+  namespace: default
+  runPeriod: 10
