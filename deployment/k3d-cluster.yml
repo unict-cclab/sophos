@@ -1,0 +1,6 @@
+apiVersion: k3d.io/v1alpha4
+kind: Simple
+metadata:
+  name: sophos-cluster
+servers: 4
+subnet: "172.28.0.0/16"
