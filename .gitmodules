@@ -5,6 +5,3 @@
 	path = scheduler-plugins
 	url = git@github.com:amarchese96/scheduler-plugins.git
 	branch = sophos
-[submodule "descheduler"]
-	path = descheduler
-	url = git@github.com:amarchese96/descheduler.git
