@@ -1,0 +1,8 @@
+apiVersion: unict.it/v1alpha1
+kind: DeschedulerAppGroup
+metadata:
+  name: bookinfo
+spec:
+  name: bookinfo
+  namespace: default
+  runPeriod: 10
