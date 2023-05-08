@@ -12,14 +12,14 @@ public interface TelemetryService {
 
     @GET
     @Path("/metrics/nodes/cpu-usage")
-    Uni<Double> getNodeCpuUsage(@QueryParam("node") String node);
+    Uni<Double> getNodeCpuUsage(@QueryParam("node") String node, String rangeWidth);
 
 
     @GET
     @Path("/metrics/nodes/available-memory")
-    Uni<Double> getNodeAvailableMemory(@QueryParam("node") String node);
+    Uni<Double> getNodeAvailableMemory(@QueryParam("node") String node, @QueryParam("range-width") String rangeWidth);
 
     @GET
     @Path("/metrics/nodes/latencies")
-    Uni<Map<String,Double>> getNodeLatencies(@QueryParam("node") String node);
+    Uni<Map<String,Double>> getNodeLatencies(@QueryParam("node") String node, @QueryParam("range-width") String rangeWidth);
 }

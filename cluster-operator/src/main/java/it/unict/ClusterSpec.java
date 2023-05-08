@@ -12,6 +12,8 @@ public class ClusterSpec {
 
     private Integer runPeriod;
 
+    private String metricsRangeWidth;
+
     public Map<String, String> getNodeSelector(){
         return nodeSelector;
     }
@@ -25,4 +27,6 @@ public class ClusterSpec {
     }
 
     public Integer getRunPeriod() { return runPeriod; }
+
+    public String getMetricsRangeWidth() { return metricsRangeWidth; }
 }

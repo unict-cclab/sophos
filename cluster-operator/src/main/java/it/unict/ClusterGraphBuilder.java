@@ -18,7 +18,7 @@ public class ClusterGraphBuilder {
     @RestClient
     TelemetryService telemetryService;
 
-    public ClusterGraph buildClusterGraph(List<Node> nodes) {
+    public ClusterGraph buildClusterGraph(List<Node> nodes, String metricsRangeWidth) {
         ClusterGraph clusterGraph = new ClusterGraph();
 
         nodes.forEach(node -> {
@@ -27,7 +27,7 @@ public class ClusterGraphBuilder {
             double cpuUsage = 0.0;
             try {
                 cpuUsage = telemetryService
-                        .getNodeCpuUsage(clusterNodeName)
+                        .getNodeCpuUsage(clusterNodeName, metricsRangeWidth)
                         .await().indefinitely();
             } catch (Exception e) {
                 log.info(e.getMessage());
@@ -44,7 +44,7 @@ public class ClusterGraphBuilder {
             double availableMemory = 0.0;
             try {
                 availableMemory = telemetryService
-                        .getNodeAvailableMemory(clusterNodeName)
+                        .getNodeAvailableMemory(clusterNodeName, metricsRangeWidth)
                         .await().indefinitely();
             } catch (Exception e) {
                 log.info(e.getMessage());
@@ -53,7 +53,7 @@ public class ClusterGraphBuilder {
             Map<String,Double> latencies = new HashMap<>();
             try {
                 latencies = telemetryService
-                        .getNodeLatencies(clusterNodeName)
+                        .getNodeLatencies(clusterNodeName, metricsRangeWidth)
                         .await().indefinitely();
             } catch (Exception e) {
                 log.info(e.getMessage());

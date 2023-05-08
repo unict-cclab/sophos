@@ -45,7 +45,7 @@ public class ClusterReconciler implements Reconciler<Cluster> {
             .list()
             .getItems();
 
-    ClusterGraph clusterGraph = clusterGraphBuilder.buildClusterGraph(nodes);
+    ClusterGraph clusterGraph = clusterGraphBuilder.buildClusterGraph(nodes, resource.getSpec().getMetricsRangeWidth());
 
     if(resource.getSpec().isResourceMonitorEnabled()) {
       log.info("Updating resource params for cluster {}", resource.getMetadata().getName());
