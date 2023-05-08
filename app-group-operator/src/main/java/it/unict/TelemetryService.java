@@ -12,13 +12,13 @@ public interface TelemetryService {
 
     @GET
     @Path("/metrics/apps/cpu-usage")
-    Uni<Double> getAppCpuUsage(@QueryParam("app-group") String appGroupName, @QueryParam("app") String appName);
+    Uni<Double> getAppCpuUsage(@QueryParam("app-group") String appGroupName, @QueryParam("app") String appName, @QueryParam("range-width") String rangeWidth);
 
     @GET
     @Path("/metrics/apps/memory-usage")
-    Uni<Double> getAppMemoryUsage(@QueryParam("app-group") String appGroupName, @QueryParam("app") String appName);
+    Uni<Double> getAppMemoryUsage(@QueryParam("app-group") String appGroupName, @QueryParam("app") String appName, @QueryParam("range-width") String rangeWidth);
 
     @GET
     @Path("/metrics/apps/traffic")
-    Uni<Map<String,Double>> getAppTraffic(@QueryParam("app-group") String appGroupName, @QueryParam("app") String appName, @QueryParam("direction") String direction);
+    Uni<Map<String,Double>> getAppTraffic(@QueryParam("app-group") String appGroupName, @QueryParam("app") String appName, @QueryParam("direction") String direction, @QueryParam("range-width") String rangeWidth);
 }

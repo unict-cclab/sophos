@@ -12,6 +12,8 @@ public class AppGroupSpec {
 
     private Integer runPeriod;
 
+    private String metricsRangeWidth;
+
     public String getName() {
         return name;
     }
@@ -27,4 +29,6 @@ public class AppGroupSpec {
     public Boolean isCommunicationMonitorEnabled() { return communicationMonitorEnabled; }
 
     public Integer getRunPeriod() { return runPeriod; }
+
+    public String getMetricsRangeWidth() { return metricsRangeWidth; }
 }

@@ -41,7 +41,7 @@ public class AppGroupReconciler implements Reconciler<AppGroup> {
             .list()
             .getItems();
 
-    AppGroupGraph appGroupGraph = appGroupGraphBuilder.buildAppGroupGraph(resource.getSpec().getName(), deployments);
+    AppGroupGraph appGroupGraph = appGroupGraphBuilder.buildAppGroupGraph(resource.getSpec().getName(), deployments, resource.getSpec().getMetricsRangeWidth());
 
     if(resource.getSpec().isResourceMonitorEnabled()) {
       log.info("Updating resource params for app group {}", resource.getSpec().getName());

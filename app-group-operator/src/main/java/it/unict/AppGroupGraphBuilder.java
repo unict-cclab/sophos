@@ -17,7 +17,7 @@ public class AppGroupGraphBuilder {
     @RestClient
     TelemetryService telemetryService;
     
-    public AppGroupGraph buildAppGroupGraph(String appGroupName, List<Deployment> deployments) {
+    public AppGroupGraph buildAppGroupGraph(String appGroupName, List<Deployment> deployments, String metricsRangeWidth) {
         AppGroupGraph appGroupGraph = new AppGroupGraph();
     
         deployments.forEach(deployment -> {
@@ -29,7 +29,7 @@ public class AppGroupGraphBuilder {
             double cpuUsage = 0.0;
             try {
                 cpuUsage = telemetryService
-                        .getAppCpuUsage(appGroupName, appName)
+                        .getAppCpuUsage(appGroupName, appName, metricsRangeWidth)
                         .await().indefinitely();
             } catch (Exception e) {
                 log.info(e.getMessage());
@@ -38,7 +38,7 @@ public class AppGroupGraphBuilder {
             double memoryUsage = 0.0;
             try {
                 memoryUsage = telemetryService
-                        .getAppMemoryUsage(appGroupName, appName)
+                        .getAppMemoryUsage(appGroupName, appName, metricsRangeWidth)
                         .await().indefinitely();
             } catch (Exception e) {
                 log.info(e.getMessage());
@@ -47,7 +47,7 @@ public class AppGroupGraphBuilder {
             Map<String,Double> traffic = new HashMap<>();
             try {
                 traffic = telemetryService
-                        .getAppTraffic(appGroupName, appName, "all")
+                        .getAppTraffic(appGroupName, appName, "all", metricsRangeWidth)
                         .await().indefinitely();
             } catch (Exception e) {
                 log.info(e.getMessage());
