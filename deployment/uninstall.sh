@@ -14,6 +14,8 @@ kubectl delete -f $WORKDIR/cluster-operator.yml
 
 kubectl delete -f $WORKDIR/telemetry-service.yml
 
+kubectl delete -f $WORKDIR/jaeger.yml
+
 helm uninstall prometheus -n monitoring
 
 istioctl uninstall --purge

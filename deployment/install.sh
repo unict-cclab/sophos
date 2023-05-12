@@ -6,7 +6,7 @@ kubectl create ns monitoring
 
 kubectl apply -f $WORKDIR/network-exporter.yml
 
-istioctl install --set profile=default -y
+istioctl install --set profile=default --set meshConfig.defaultConfig.tracing.zipkin.address=zipkin.monitoring.svc.cluster.local:9411 -y
 
 kubectl label namespace default istio-injection=enabled
 
@@ -15,6 +15,8 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm install prometheus prometheus-community/kube-prometheus-stack -n monitoring --create-namespace --values $WORKDIR/prometheus/values.yml --version 45.7.1
 
 kubectl apply -f $WORKDIR/prometheus/config.yml
+
+kubectl apply -f $WORKDIR/jaeger.yml
 
 kubectl apply -f $WORKDIR/telemetry-service.yml
 
