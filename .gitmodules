@@ -1,4 +1,0 @@
-[submodule "scheduler-plugins"]
-	path = scheduler-plugins
-	url = git@github.com:amarchese96/scheduler-plugins.git
-	branch = sophos
