@@ -7,3 +7,4 @@ spec:
   resourceMonitorEnabled: true
   networkMonitorEnabled: true
   runPeriod: 30
+  metricsRangeWidth: 1m

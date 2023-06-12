@@ -111,7 +111,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
+  labels:bookinfo
     app-group: bookinfo
     app: productpage
   name: productpage
@@ -121,7 +121,6 @@ spec:
     port: 9080
     protocol: TCP
     targetPort: 9080
-    nodePort: 30000
   selector:
     app-group: bookinfo
     app: productpage

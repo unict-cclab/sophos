@@ -8,3 +8,5 @@ spec:
   resourceMonitorEnabled: true
   communicationMonitorEnabled: true
   runPeriod: 60
+  metricsRangeWidth: 1m
+  
