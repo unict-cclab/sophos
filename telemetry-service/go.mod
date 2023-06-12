@@ -1,4 +1,4 @@
-module github.com/amarchese96/sophos-telemetry-service
+module github.com/unict-cclab/sophos-telemetry-service
 
 go 1.18
 

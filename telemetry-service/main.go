@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/amarchese96/sophos-telemetry-service/metrics"
+	"github.com/unict-cclab/sophos-telemetry-service/metrics"
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/common/model"
 	"net/http"
