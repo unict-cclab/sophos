@@ -1,0 +1,7 @@
+[submodule "mentat"]
+	path = mentat
+	url = git@github.com:unict-cclab/mentat.git
+[submodule "scheduler-plugins"]
+	path = scheduler-plugins
+	url = git@github.com:unict-cclab/scheduler-plugins.git
+	branch = sophos
