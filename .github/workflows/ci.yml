@@ -63,7 +63,7 @@ jobs:
           make IMG=${IMG} docker-build
         shell: bash
         env:
-          IMG: ${{ env.REGISTRY }}/amarchese96/sophos-app-group-operator:${{ steps.vars.outputs.sha_short }}
+          IMG: ${{ env.REGISTRY }}/unict-cclab/sophos-app-group-operator:${{ steps.vars.outputs.sha_short }}
 
       - name: Push Image
         if: ${{ github.event_name != 'pull_request' || ! github.event.pull_request.head.repo.fork }}
@@ -74,7 +74,7 @@ jobs:
           make IMG=${IMG} docker-push
         shell: bash
         env:
-          IMG: ${{ env.REGISTRY }}/amarchese96/sophos-app-group-operator:${{ steps.vars.outputs.sha_short }}
+          IMG: ${{ env.REGISTRY }}/unict-cclab/sophos-app-group-operator:${{ steps.vars.outputs.sha_short }}
   
   cluster-operator:
     runs-on: ubuntu-latest
@@ -114,7 +114,7 @@ jobs:
           make IMG=${IMG} docker-build
         shell: bash
         env:
-          IMG: ${{ env.REGISTRY }}/amarchese96/sophos-cluster-operator:${{ steps.vars.outputs.sha_short }}
+          IMG: ${{ env.REGISTRY }}/unict-cclab/sophos-cluster-operator:${{ steps.vars.outputs.sha_short }}
 
       - name: Push Image
         if: ${{ github.event_name != 'pull_request' || ! github.event.pull_request.head.repo.fork }}
@@ -125,7 +125,7 @@ jobs:
           make IMG=${IMG} docker-push
         shell: bash
         env:
-          IMG: ${{ env.REGISTRY }}/amarchese96/sophos-cluster-operator:${{ steps.vars.outputs.sha_short }}
+          IMG: ${{ env.REGISTRY }}/unict-cclab/sophos-cluster-operator:${{ steps.vars.outputs.sha_short }}
   
   descheduler-operator:
     runs-on: ubuntu-latest
@@ -165,7 +165,7 @@ jobs:
           make IMG=${IMG} docker-build
         shell: bash
         env:
-          IMG: ${{ env.REGISTRY }}/amarchese96/sophos-descheduler-operator:${{ steps.vars.outputs.sha_short }}
+          IMG: ${{ env.REGISTRY }}/unict-cclab/sophos-descheduler-operator:${{ steps.vars.outputs.sha_short }}
 
       - name: Push Image
         if: ${{ github.event_name != 'pull_request' || ! github.event.pull_request.head.repo.fork }}
@@ -176,7 +176,7 @@ jobs:
           make IMG=${IMG} docker-push
         shell: bash
         env:
-          IMG: ${{ env.REGISTRY }}/amarchese96/sophos-descheduler-operator:${{ steps.vars.outputs.sha_short }}
+          IMG: ${{ env.REGISTRY }}/unict-cclab/sophos-descheduler-operator:${{ steps.vars.outputs.sha_short }}
   
   network-exporter:
     runs-on: ubuntu-latest
@@ -211,7 +211,7 @@ jobs:
           make IMG=${IMG} docker-build
         shell: bash
         env:
-          IMG: ${{ env.REGISTRY }}/amarchese96/mentat:${{ steps.vars.outputs.sha_short }}
+          IMG: ${{ env.REGISTRY }}/unict-cclab/mentat:${{ steps.vars.outputs.sha_short }}
 
       - name: Push Image
         if: ${{ github.event_name != 'pull_request' || ! github.event.pull_request.head.repo.fork }}
@@ -222,7 +222,7 @@ jobs:
           make IMG=${IMG} docker-push
         shell: bash
         env:
-          IMG: ${{ env.REGISTRY }}/amarchese96/mentat:${{ steps.vars.outputs.sha_short }}
+          IMG: ${{ env.REGISTRY }}/unict-cclab/mentat:${{ steps.vars.outputs.sha_short }}
   
   scheduler:
     runs-on: ubuntu-latest
@@ -264,7 +264,7 @@ jobs:
         shell: bash
         env:
           RELEASE_VERSION: ${{ steps.get-latest-tag.outputs.tag }}
-          REGISTRY: ${{ env.REGISTRY }}/amarchese96
+          REGISTRY: ${{ env.REGISTRY }}/unict-cclab
           IMG: sophos-scheduler:${{ steps.vars.outputs.sha_short }}
 
       - name: Push Image
@@ -275,7 +275,7 @@ jobs:
           docker push ${IMG}
         shell: bash
         env:
-          IMG: ${{ env.REGISTRY }}/amarchese96/sophos-scheduler:${{ steps.vars.outputs.sha_short }}
+          IMG: ${{ env.REGISTRY }}/unict-cclab/sophos-scheduler:${{ steps.vars.outputs.sha_short }}
   
   telemetry-service:
     runs-on: ubuntu-latest
@@ -308,7 +308,7 @@ jobs:
           make IMG=${IMG} docker-build
         shell: bash
         env:
-          IMG: ${{ env.REGISTRY }}/amarchese96/sophos-telemetry-service:${{ steps.vars.outputs.sha_short }}
+          IMG: ${{ env.REGISTRY }}/unict-cclab/sophos-telemetry-service:${{ steps.vars.outputs.sha_short }}
 
       - name: Push Image
         if: ${{ github.event_name != 'pull_request' || ! github.event.pull_request.head.repo.fork }}
@@ -319,4 +319,4 @@ jobs:
           make IMG=${IMG} docker-push
         shell: bash
         env:
-          IMG: ${{ env.REGISTRY }}/amarchese96/sophos-telemetry-service:${{ steps.vars.outputs.sha_short }}
+          IMG: ${{ env.REGISTRY }}/unict-cclab/sophos-telemetry-service:${{ steps.vars.outputs.sha_short }}
